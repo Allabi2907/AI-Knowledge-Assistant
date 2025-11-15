@@ -1,0 +1,218 @@
+/* @import 'tailwindcss'; */
+
+/* @import '@skeletonlabs/skeleton';
+@import '@skeletonlabs/skeleton-svelte';
+@import '@skeletonlabs/skeleton/themes/cerberus'; */
+ /* Tailwind base imports (if using Tailwind) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------
+   Global Body
+------------------- */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9f9;
+  color: #111;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dark mode body */
+.dark body {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* -------------------
+   Container
+------------------- */
+main.container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* -------------------
+   Card styles
+------------------- */
+.card {
+  border: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.dark .card {
+  background: #1f1f1f;
+  border-color: #333;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* -------------------
+   Headings
+------------------- */
+.heading-large {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: inherit;
+}
+
+.heading-medium {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: inherit;
+}
+
+/* -------------------
+   Buttons
+------------------- */
+.button-primary {
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button-primary:hover {
+  background-color: #357abd;
+}
+
+.button-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* -------------------
+   Inputs
+------------------- */
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.form-input:focus {
+  border-color: #4a90e2;
+}
+
+.dark .form-input {
+  background: #1f1f1f;
+  color: #e0e0e0;
+  border-color: #333;
+}
+
+/* -------------------
+   Chat area
+------------------- */
+.chat-window {
+  background: #f0f8ff;
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 400px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.dark .chat-window {
+  background: #1a1a1a;
+}
+
+.message {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  max-width: 80%;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+}
+
+.message.user {
+  background-color: #4a90e2;
+  color: white;
+  margin-left: auto;
+}
+
+.message.assistant {
+  background-color: #e2e8f0;
+  color: #111;
+}
+
+.dark .message.assistant {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+/* -------------------
+   Thinking / typing animation
+------------------- */
+.thinking {
+  text-align: left;
+  font-style: italic;
+  color: #555;
+}
+
+.dark .thinking {
+  color: #aaa;
+}
+
+.thinking span {
+  display: inline-block;
+  animation: bounce 1.2s infinite;
+}
+
+.thinking span:nth-child(2) { animation-delay: 0.1s; }
+.thinking span:nth-child(3) { animation-delay: 0.2s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* -------------------
+   Layout helpers
+------------------- */
+.flex-row {
+  display: flex;
+  align-items: center;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.mt-2 { margin-top: 0.5rem; }
+.ml-2 { margin-left: 0.5rem; }
+
+@media (max-width: 600px) {
+  .flex-row { flex-direction: column; }
+  .ml-2 { margin-left: 0; margin-top: 0.5rem; }
+}
+
+/* -------------------
+   Scrollbar styling (optional)
+------------------- */
+.chat-window::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.dark .chat-window::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
