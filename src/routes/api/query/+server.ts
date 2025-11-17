@@ -12,13 +12,27 @@ const MAX_HISTORY = 5;
 
 export const POST = async ({ request }) => {
   const { question, mode } = await request.json();
+  
+  // Build prompt
+  let prompt = '';
+
+  const summaryTriggers = [
+    "what does this file contain",
+    "summarize this file",
+    "give me summary",
+    "what is this document about",
+    "overview of this file",
+  ];
+
+  const isSummaryRequest = summaryTriggers.some(t =>
+    question.toLowerCase().includes(t)
+  );
+
 
   // Add user question to chat history
   chatHistory.push({ role: 'user', content: question });
   if (chatHistory.length > MAX_HISTORY * 2) chatHistory.shift(); // remove oldest turn
 
-  // Build prompt
-  let prompt = '';
 
   // Include recent chat history
   const recentHistory = chatHistory.slice(-MAX_HISTORY * 2);
@@ -34,9 +48,22 @@ export const POST = async ({ request }) => {
   // Add document context or general knowledge
   if (mode === 'document') {
     const results = await vectorStore.similaritySearch(question, 3);
-    const context = results.map(r => r.pageContent).join("\n");
-    prompt += `Answer the question using ONLY the context below. If the answer is not present in the context, say "The document does not contain that information."\n\n`;
-    prompt += `Context:\n${context}\n\nQuestion: ${question}\nAnswer:`;
+
+    if (isSummaryRequest) {
+      const fullText = results.map(r => r.pageContent).join("\n");
+      prompt = `
+        Provide a clear and concise summary of the following document.
+        Do NOT say that information is missing.
+        Document Text:
+        ${fullText}
+
+        Summary:
+      `;
+    } else {
+      const context = results.map(r => r.pageContent).join("\n");
+      prompt += `Answer the question using ONLY the context below. If the answer is not present in the context, say "The document does not contain that information."\n\n`;
+      prompt += `Context:\n${context}\n\nQuestion: ${question}\nAnswer:`;
+    }
   } else {
     prompt += `Answer the following question using your own knowledge:\n\nQuestion: ${question}\nAnswer:`;
   }
