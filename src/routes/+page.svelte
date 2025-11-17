@@ -70,6 +70,9 @@
   async function deleteFile(index: number) {
     const file = uploadedFiles[index];
 
+    if(uploadedFiles.length === 1) {
+      conversation = conversation.filter(c => c.mode !== 'document');
+    }
     // Call backend to delete from vector store
     const res = await fetch('/api/upload', {
       method: 'DELETE',
@@ -235,7 +238,7 @@
 
            <div class="conversation">
             {#each conversation as c, i}
-              {#if c.mode === 'document'}
+              {#if uploadedFiles.length !== 0 && c.mode === 'document'}
                 <div class="chat-message user">
                   <div class="bubble">{c.question}</div>
                 </div>
